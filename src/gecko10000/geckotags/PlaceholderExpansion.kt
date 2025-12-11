@@ -11,7 +11,7 @@ class PlaceholderExpansion : MyKoinComponent, PlaceholderExpansion() {
     private val tagManager: TagManager by inject()
 
     init {
-        println(register())
+        register()
     }
 
     override fun getIdentifier() = "geckotags"
@@ -24,7 +24,7 @@ class PlaceholderExpansion : MyKoinComponent, PlaceholderExpansion() {
 
     override fun onPlaceholderRequest(player: Player, params: String): String {
         if (params != "tag") return ""
-        return tagManager.getTag(player)?.let { plugin.config.tags.getValue(it).tag } ?: ""
+        return tagManager.getTag(player)?.let { plugin.config.tags[it]?.tag } ?: ""
     }
 
     override fun getPlaceholders() = listOf("%${identifier}_tag%")
