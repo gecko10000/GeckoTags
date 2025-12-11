@@ -20,6 +20,8 @@ class PlaceholderExpansion : MyKoinComponent, PlaceholderExpansion() {
 
     override fun getVersion() = plugin.pluginMeta.version
 
+    override fun persist() = true
+
     override fun onPlaceholderRequest(player: Player, params: String): String {
         if (params != "tag") return ""
         return tagManager.getTag(player)?.let { plugin.config.tags.getValue(it).tag } ?: ""
