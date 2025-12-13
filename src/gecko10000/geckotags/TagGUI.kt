@@ -9,6 +9,7 @@ import gecko10000.geckolib.inventorygui.ItemButton
 import gecko10000.geckolib.misc.ItemUtils
 import gecko10000.geckotags.configs.Tag
 import gecko10000.geckotags.di.MyKoinComponent
+import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -33,11 +34,13 @@ class TagGUI(player: Player) : GUI(player), MyKoinComponent {
     }
 
     private fun tagButton(tag: Pair<String, Tag>): ItemButton {
+        val isSelected = tagManager.getTag(player) == tag.first
         val item = ItemStack.of(Material.NAME_TAG)
+        val extraLore = if (isSelected) listOf(Component.empty(), parseMM("<green><b>Selected")) else emptyList()
         item.editMeta {
             it.itemName(MM.deserialize(tag.second.tag))
-            it.lore(tag.second.description.map { it.withDefaults() })
-            if (tagManager.getTag(player) == tag.first) {
+            it.lore(tag.second.description.map { it.withDefaults() }.plus(extraLore))
+            if (isSelected) {
                 it.setEnchantmentGlintOverride(true)
             }
         }
